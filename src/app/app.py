@@ -1,5 +1,5 @@
 import sys
-sys.path.append('/home/pqbas/miniconda3/envs/iot/lib/python3.8/site-packages')
+#sys.path.append('/home/pqbas/miniconda3/envs/iot/lib/python3.8/site-packages')
 from watchdog.events import EVENT_TYPE_OPENED
 from flask import Flask, render_template, jsonify
 
@@ -38,7 +38,7 @@ def index():
     return render_template('index.html')
 
 @app.route('/functions.js')
-def index():
+def functions():
     return render_template('functions.js')
 
 @app.route('/datos',methods=['GET'])
