@@ -10,10 +10,38 @@ import threading
 
 SIMULATOR = True # True / False - Verdadero si quiere usar el simulador
 
-DICTIONARY = {
-    'topic1': -1,
-    'topic2': -1
-}
+DICTIONARY = [{
+		"topic_name": "/odom",
+		"topic_name2show": "odometría",
+		"info": {
+			"x": -1,
+			"y": -1,
+			"z": -1
+		}
+	},
+	{
+		"topic_name": "/odrive_dual_control",
+		"topic_name2show": "velocidad M1 M2",
+		"info": {
+			"eje M1": -1,
+			"eje M2": -1
+		}
+	},
+	{
+		"topic_name": "/pistones_status",
+		"topic_name2show": "pistones",
+		"info": {
+			"voltaje p1": -1,
+			"corriente p1": -1,
+			"voltaje p2": -1,
+			"corriente p2": -1,
+			"voltaje p3": -1,
+			"corriente p3": -1,
+			"voltaje p4": -1,
+			"corriente p4": -1
+		}
+	}
+]
 
 def subscriber_ros():
     
@@ -25,9 +53,9 @@ def subscriber_ros():
         for topic in DICTIONARY:
             random_number = random.randint(10,15) + random.random()
             DICTIONARY[topic] = random_number
-            
-        print(DICTIONARY[topic])
-        sys.exit()  # JORGE: Commentarlo, lo uso para pruebas
+        
+        #print(DICTIONARY[topic])
+        #sys.exit()  # JORGE: Commentarlo, lo uso para pruebas
 
     else:
         print("SIMULATOR -- OFF")
@@ -60,5 +88,5 @@ def solicitud():
 
 
 if __name__ == '__main__':
-    subscriber_ros()
+    #subscriber_ros()
     app.run(debug=True, port=5000)
