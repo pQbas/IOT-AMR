@@ -14,5 +14,5 @@ Pasos en GIT:
         git pull
     Subir camabios:
         git add .
-        git commit -m 'Fixed funcions name'
+        git commit -m 'Folder documents with topic_list.txt was addded'
         git push -u origin main
