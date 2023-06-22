@@ -1,14 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Webpage</title>
-    <!-- <link rel="stylesheet" href="styles.css">
-    <script src="script.js"></script> -->
+    <link rel="shortcut icon" type="image/png" href="/favicon.png"/> <!-- TODO: crear el favicon -->
+    <title>Robot Movil UPAO</title>
+
+    <!-- TODO: crear los estilos y mover el javascript a un codigo aparte -->
+    <!-- <link rel="stylesheet" href="styles.css"> 
+    <script src="functions.js"></script> -->
 </head>
 <body>
 
+    <div>
+        <canvas id="myChart"></canvas>
+    </div>
 
 
     <!-- <header>
@@ -45,17 +51,53 @@
         </section>
     </main> -->
 
-    <button id="datos">Solicitar</button>
-    <script src=https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <script type='text/javascript'>
-        $("#datos").on('click', function(){
-                console.log('Entre')
-            }
-        );
+        $(window).on('load', function() {
+            actualizaPagina();
+            var intervalId = window.setInterval(function(){
+                actualizaPagina();
+            }, 5000);
+        });
+        
+        function actualizaPagina() {
+            console.log("recogiendo datos");
+            $.getJSON("datos", function(data){
+                console.log("Data: " + data);
+                $.each( data, function( key, val ) {
+                    console.log( "" + key + ": " + val);
+                });
+            });
+        }
+
+
+  const ctx = document.getElementById('myChart');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      datasets: [{
+        label: '# of Votes',
+        data: [12, 19, 3, 5, 2, 3],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
     </script>
 
     <footer>
-        <p>&copy; 2023 My Webpage. All rights reserved.</p>
+        <p>&copy; 2023 LABINM Robótica.</p>
     </footer>
 </body>
 </html>
