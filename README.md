@@ -14,7 +14,6 @@ Pasos en GIT:
         git pull
     Subir camabios:
         git add .
-<<<<<<< HEAD
         git commit -m 'Fixed funcions name'
         git push -u origin main
 
@@ -24,7 +23,5 @@ Pasos simular servidor WEB:
         - poner variables: SIMULATOR = True
         - ejecutar app.py
         - en el navegador, entrar a la direccion http://127.0.0.1:5000/
-=======
         git commit -m 'Folder documents with topic_list.txt was addded'
         git push -u origin main
->>>>>>> e614697b05d309ae13da8abe701dacbbdd60d590
