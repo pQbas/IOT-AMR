@@ -1,0 +1,865 @@
+
+'''SUMARY'''
+
+This is a list of topics of the mobile robot, 
+also here kind of information published, and an example obtained of the robot.
+
+Esta es una lista de topicos del robot mobil, 
+tambien el tiempo de información que envia el topico, y un ejemplo obtenida directamente del robot.
+
+DATE: 
+
+
+
+Lista de topicos:
+    /amortiguacion_posicion
+    /axis_supervision
+    /boards_status
+    /cmd_vel
+    /cmd_vel_2
+    /diagnostics
+    /gps/fix
+    /gps/heading
+    /gps/time_reference
+    /gps/vel
+    /joint_states
+    /joy
+    /joy/set_feedback
+    /mobile_robot/mobile_base_controller/parameter_descriptions
+    /mobile_robot/mobile_base_controller/parameter_updates
+    /odom
+    /odrive_dual_control
+    /pistones_control
+    /pistones_status
+    /pistones_supervision
+    /rosout
+    /rosout_agg
+    /seguridad
+    /tf
+    /tf_static
+
+
+Detalles:
+    Topic: /amortiguacion_posicion
+    Type: robot_movil_msg/sen_amortiguador_pos
+
+    Publishers: 
+    * /pos_amortiguacion (http://192.168.0.40:42191/)
+
+    Subscribers: None
+
+
+    stamp: 
+    secs: 1687451460
+    nsecs: 996208190
+    Amortiguador_FI_pos: 322.1060791015625
+    Amortiguador_FD_pos: 316.0317077636719
+    Amortiguador_TI_pos: 323.4355773925781
+    Amortiguador_TD_pos: 321.6273498535156
+    ---
+    ----------------------------------------
+    Topic: /axis_supervision
+    Type: robot_movil_msg/od_dual_supervision
+
+    Publishers: 
+    * /Odrive_dual (http://192.168.0.40:41657/)
+
+    Subscribers: 
+    * /robot_hw_interface (http://192.168.0.40:35683/)
+    * /robot_movil_descripcion (http://192.168.0.40:46283/)
+
+
+    stamp: 
+    secs: 1687451465
+    nsecs: 152468919
+    Odrv1_sup: 
+    Odrive_ID: "20863696424D"
+    Ax0_pos_act: 0.0
+    Ax0_vel_act: 0.0
+    Ax0_pot: 0.0
+    Ax1_pos_act: 0.0
+    Ax1_vel_act: 0.0
+    Ax1_pot: 0.0
+    Odrv2_sup: 
+    Odrive_ID: "20713694424D"
+    Ax0_pos_act: 0.0
+    Ax0_vel_act: 0.0
+    Ax0_pot: 0.0
+    Ax1_pos_act: 0.0
+    Ax1_vel_act: 0.0
+    Ax1_pot: 0.0
+    ---
+    ----------------------------------------
+    Topic: /boards_status
+    Type: robot_movil_msg/od_dual_board_status
+
+    Publishers: 
+    * /Odrive_dual (http://192.168.0.40:41657/)
+
+    Subscribers: None
+
+
+    stamp: 
+    secs: 1687451469
+    nsecs: 473711013
+    Odrive1: 
+    Voltaje: 36.32497787475586
+    Ibus_board: 5.097632310935296e-05
+    Ibus_AX0: 0.0
+    Ibus_AX1: 0.0
+    Error_DRIVER: "ODRIVE_ERROR_NONE"
+    Error_AX0_AXIS: "AXIS_ERROR_NONE"
+    Error_AX0_CONTROLLER: "CONTROLLER_ERROR_NONE"
+    Error_AX0_MOTOR: "MOTOR_ERROR_NONE"
+    Error_AX0_ENCODER: "ENCODER_ERROR_NONE"
+    Error_AX1_AXIS: "AXIS_ERROR_NONE"
+    Error_AX1_CONTROLLER: "CONTROLLER_ERROR_NONE"
+    Error_AX1_MOTOR: "MOTOR_ERROR_NONE"
+    Error_AX1_ENCODER: "ENCODER_ERROR_NONE"
+    Odrive2: 
+    Voltaje: 36.29436111450195
+    Ibus_board: -0.00015383890422526747
+    Ibus_AX0: 0.0
+    Ibus_AX1: 0.0
+    Error_DRIVER: "ODRIVE_ERROR_NONE"
+    Error_AX0_AXIS: "AXIS_ERROR_NONE"
+    Error_AX0_CONTROLLER: "CONTROLLER_ERROR_NONE"
+    Error_AX0_MOTOR: "MOTOR_ERROR_NONE"
+    Error_AX0_ENCODER: "ENCODER_ERROR_NONE"
+    Error_AX1_AXIS: "AXIS_ERROR_NONE"
+    Error_AX1_CONTROLLER: "CONTROLLER_ERROR_NONE"
+    Error_AX1_MOTOR: "MOTOR_ERROR_NONE"
+    Error_AX1_ENCODER: "ENCODER_ERROR_NONE"
+    ---
+    ----------------------------------------
+    Topic: /cmd_vel
+    Type: geometry_msgs/Twist
+
+    Publishers: None
+
+    Subscribers: 
+    * /control_mando (http://192.168.0.40:36101/)
+
+
+    ^C----------------------------------------
+    Topic: /cmd_vel_2
+    Type: geometry_msgs/Twist
+
+    Publishers: 
+    * /control_mando (http://192.168.0.40:36101/)
+
+    Subscribers: 
+    * /robot_hw_interface (http://192.168.0.40:35683/)
+
+
+    linear: 
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    angular: 
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    ---
+    ----------------------------------------
+    Topic: /diagnostics
+    Type: diagnostic_msgs/DiagnosticArray
+
+    Publishers: 
+    * /joy_node (http://192.168.0.40:42639/)
+
+    Subscribers: None
+
+
+    header: 
+    seq: 85
+    stamp: 
+        secs: 1687451532
+        nsecs:  75013813
+    frame_id: ''
+    status: 
+    - 
+        level: 0
+        name: "joy_node: Joystick Driver Status"
+        message: "OK"
+        hardware_id: "none"
+        values: 
+        - 
+            key: "topic"
+            value: "/joy"
+        - 
+            key: "device"
+            value: "/dev/input/js0"
+        - 
+            key: "device name"
+            value: ''
+        - 
+            key: "dead zone"
+            value: "0.05"
+        - 
+            key: "autorepeat rate (Hz)"
+            value: "0"
+        - 
+            key: "coalesce interval (s)"
+            value: "0.001"
+        - 
+            key: "recent joystick event rate (Hz)"
+            value: "0"
+        - 
+            key: "recent publication rate (Hz)"
+            value: "0"
+        - 
+            key: "subscribers"
+            value: "1"
+        - 
+            key: "default trig val"
+            value: "False"
+        - 
+            key: "sticky buttons"
+            value: "False"
+    ---
+    ----------------------------------------
+    Topic: /gps/fix
+    Type: sensor_msgs/NavSatFix
+
+    Publishers: 
+    * /nmea_serial_driver (http://192.168.0.40:43519/)
+
+    Subscribers: None
+
+
+    header: 
+    seq: 1
+    stamp: 
+        secs: 1687451536
+        nsecs: 975952386
+    frame_id: "base_gps"
+    status: 
+    status: -1
+    service: 1
+    latitude: -8.127938333333333
+    longitude: -79.03192666666666
+    altitude: nan
+    position_covariance: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    position_covariance_type: 0
+    ---
+    ----------------------------------------
+    Topic: /gps/heading
+    Type: geometry_msgs/QuaternionStamped
+
+    Publishers: 
+    * /nmea_serial_driver (http://192.168.0.40:43519/)
+
+    Subscribers: None
+
+
+    ^C----------------------------------------
+    Topic: /gps/time_reference
+    Type: sensor_msgs/TimeReference
+
+    Publishers: 
+    * /nmea_serial_driver (http://192.168.0.40:43519/)
+
+    Subscribers: None
+
+
+    header: 
+    seq: 1
+    stamp: 
+        secs: 1687451560
+        nsecs: 964673042
+    frame_id: "base_gps"
+    time_ref: 
+    secs: 1661127674
+    nsecs:         0
+    source: "gps"
+    ---
+    ----------------------------------------
+    Topic: /gps/vel
+    Type: geometry_msgs/TwistStamped
+
+    Publishers: 
+    * /nmea_serial_driver (http://192.168.0.40:43519/)
+
+    Subscribers: None
+
+
+    ^C----------------------------------------
+    Topic: /joint_states
+    Type: sensor_msgs/JointState
+
+    Publishers: 
+    * /robot_movil_descripcion (http://192.168.0.40:46283/)
+    * /robot_hw_interface (http://192.168.0.40:35683/)
+
+    Subscribers: 
+    * /robot_state_publisher (http://192.168.0.40:40745/)
+
+
+    header: 
+    seq: 5423
+    stamp: 
+        secs: 1687451586
+        nsecs: 553904240
+    frame_id: ''
+    name: 
+    - FD_rueda_join
+    - FI_rueda_join
+    - TD_rueda_join
+    - TI_rueda_join
+    position: [0.025048203312494806, 0.0, 0.0, 0.0]
+    velocity: [-0.3272492503533963, 0.0, 0.0, 0.0]
+    effort: [0.0, 0.0, 0.0, 0.0]
+    ---
+    ----------------------------------------
+    Topic: /joy
+    Type: sensor_msgs/Joy
+
+    Publishers: 
+    * /joy_node (http://192.168.0.40:42639/)
+
+    Subscribers: 
+    * /control_mando (http://192.168.0.40:36101/)
+
+
+    ^C----------------------------------------
+    Topic: /joy/set_feedback
+    Type: sensor_msgs/JoyFeedbackArray
+
+    Publishers: None
+
+    Subscribers: 
+    * /joy_node (http://192.168.0.40:42639/)
+
+
+    ^C----------------------------------------
+    Topic: /mobile_robot/mobile_base_controller/parameter_descriptions
+    Type: dynamic_reconfigure/ConfigDescription
+
+    Publishers: 
+    * /robot_hw_interface (http://192.168.0.40:35683/)
+
+    Subscribers: None
+
+
+    groups: 
+    - 
+        name: "Default"
+        type: ''
+        parameters: 
+        - 
+            name: "left_wheel_radius_multiplier"
+            type: "double"
+            level: 0
+            description: "Left wheel radius multiplier."
+            edit_method: ''
+        - 
+            name: "right_wheel_radius_multiplier"
+            type: "double"
+            level: 0
+            description: "Right wheel radius multiplier."
+            edit_method: ''
+        - 
+            name: "wheel_separation_multiplier"
+            type: "double"
+            level: 0
+            description: "Wheel separation multiplier."
+            edit_method: ''
+        - 
+            name: "publish_rate"
+            type: "double"
+            level: 0
+            description: "Publish rate of odom."
+            edit_method: ''
+        - 
+            name: "enable_odom_tf"
+            type: "bool"
+            level: 0
+            description: "Publish odom frame to tf."
+            edit_method: ''
+        parent: 0
+        id: 0
+    max: 
+    bools: 
+        - 
+        name: "enable_odom_tf"
+        value: True
+    ints: []
+    strs: []
+    doubles: 
+        - 
+        name: "left_wheel_radius_multiplier"
+        value: 1.5
+        - 
+        name: "right_wheel_radius_multiplier"
+        value: 1.5
+        - 
+        name: "wheel_separation_multiplier"
+        value: 1.5
+        - 
+        name: "publish_rate"
+        value: 2000.0
+    groups: 
+        - 
+        name: "Default"
+        state: True
+        id: 0
+        parent: 0
+    min: 
+    bools: 
+        - 
+        name: "enable_odom_tf"
+        value: False
+    ints: []
+    strs: []
+    doubles: 
+        - 
+        name: "left_wheel_radius_multiplier"
+        value: 0.5
+        - 
+        name: "right_wheel_radius_multiplier"
+        value: 0.5
+        - 
+        name: "wheel_separation_multiplier"
+        value: 0.5
+        - 
+        name: "publish_rate"
+        value: 0.0
+    groups: 
+        - 
+        name: "Default"
+        state: True
+        id: 0
+        parent: 0
+    dflt: 
+    bools: 
+        - 
+        name: "enable_odom_tf"
+        value: True
+    ints: []
+    strs: []
+    doubles: 
+        - 
+        name: "left_wheel_radius_multiplier"
+        value: 1.0
+        - 
+        name: "right_wheel_radius_multiplier"
+        value: 1.0
+        - 
+        name: "wheel_separation_multiplier"
+        value: 1.0
+        - 
+        name: "publish_rate"
+        value: 50.0
+    groups: 
+        - 
+        name: "Default"
+        state: True
+        id: 0
+        parent: 0
+    ---
+    ----------------------------------------
+    Topic: /mobile_robot/mobile_base_controller/parameter_updates
+    Type: dynamic_reconfigure/Config
+
+    Publishers: 
+    * /robot_hw_interface (http://192.168.0.40:35683/)
+
+    Subscribers: None
+
+
+    bools: 
+    - 
+        name: "enable_odom_tf"
+        value: False
+    ints: []
+    strs: []
+    doubles: 
+    - 
+        name: "left_wheel_radius_multiplier"
+        value: 1.0
+    - 
+        name: "right_wheel_radius_multiplier"
+        value: 1.0
+    - 
+        name: "wheel_separation_multiplier"
+        value: 1.0
+    - 
+        name: "publish_rate"
+        value: 100.0
+    groups: 
+    - 
+        name: "Default"
+        state: True
+        id: 0
+        parent: 0
+    ---
+    ----------------------------------------
+    Topic: /odom
+    Type: nav_msgs/Odometry
+
+    Publishers: 
+    * /robot_hw_interface (http://192.168.0.40:35683/)
+
+    Subscribers: None
+
+
+    header: 
+    seq: 8545
+    stamp: 
+        secs: 1687451664
+        nsecs: 603950519
+    frame_id: "odom"
+    child_frame_id: "base_footprint"
+    pose: 
+    pose: 
+        position: 
+        x: 8.564726511866314e-06
+        y: 7.973318671494901e-11
+        z: 0.0
+        orientation: 
+        x: 0.0
+        y: 0.0
+        z: 9.309485339399109e-06
+        w: 0.9999999999566668
+    covariance: [0.001, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.001, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1000000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1000000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1000000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1000.0]
+    twist: 
+    twist: 
+        linear: 
+        x: -0.002592956575596302
+        y: 0.0
+        z: 0.0
+        angular: 
+        x: 0.0
+        y: 0.0
+        z: -0.005636862120861502
+    covariance: [0.001, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.001, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1000000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1000000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1000000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1000.0]
+    ---
+    ----------------------------------------
+    Topic: /odrive_dual_control
+    Type: robot_movil_msg/od_dual_control
+
+    Publishers: 
+    * /robot_hw_interface (http://192.168.0.40:35683/)
+
+    Subscribers: 
+    * /Odrive_dual (http://192.168.0.40:41657/)
+
+
+    Odrive1: 
+    Vel_ax0: 0.0
+    Vel_ax1: 0.0
+    Parada_emergencia: False
+    Odrive2: 
+    Vel_ax0: 0.0
+    Vel_ax1: 0.0
+    Parada_emergencia: False
+    ---
+    ----------------------------------------
+    Topic: /pistones_control
+    Type: robot_movil_msg/pist_control
+
+    Publishers: 
+    * /control_mando (http://192.168.0.40:36101/)
+
+    Subscribers: 
+    * /pistones (http://192.168.0.40:38525/)
+
+
+    ^C----------------------------------------
+    Topic: /pistones_status
+    Type: robot_movil_msg/pist_status
+
+    Publishers: 
+    * /pistones (http://192.168.0.40:38525/)
+
+    Subscribers: None
+
+
+    stamp: 
+    secs: 1687451692
+    nsecs: 745745897
+    P1: 
+    Voltaje: 12.1899995803833
+    Corriente: 0.0
+    Cod_falla: 256
+    P2: 
+    Voltaje: 12.220000267028809
+    Corriente: 0.0
+    Cod_falla: 256
+    P3: 
+    Voltaje: 12.220000267028809
+    Corriente: 0.0
+    Cod_falla: 256
+    P4: 
+    Voltaje: 12.220000267028809
+    Corriente: 0.0
+    Cod_falla: 256
+    ---
+    ----------------------------------------
+    Topic: /pistones_supervision
+    Type: robot_movil_msg/pist_supervision
+
+    Publishers: 
+    * /pistones (http://192.168.0.40:38525/)
+
+    Subscribers: 
+    * /robot_movil_descripcion (http://192.168.0.40:46283/)
+    * /control_mando (http://192.168.0.40:36101/)
+
+
+    stamp: 
+    secs: 1687451696
+    nsecs: 882128953
+    P1_pos_act: 0.0
+    P2_pos_act: 5.421000003814697
+    P3_pos_act: 7.2769999504089355
+    P4_pos_act: 5.519000053405762
+    ---
+    ----------------------------------------
+    Topic: /rosout
+    Type: rosgraph_msgs/Log
+
+    Publishers: 
+    * /robot_state_publisher (http://192.168.0.40:40745/)
+    * /robot_hw_interface (http://192.168.0.40:35683/)
+    * /joy_node (http://192.168.0.40:42639/)
+    * /robot_movil_descripcion (http://192.168.0.40:46283/)
+    * /controller_spawner (http://192.168.0.40:39777/)
+    * /nmea_serial_driver (http://192.168.0.40:43519/)
+    * /pos_amortiguacion (http://192.168.0.40:42191/)
+    * /Odrive_dual (http://192.168.0.40:41657/)
+    * /pistones (http://192.168.0.40:38525/)
+    * /control_mando (http://192.168.0.40:36101/)
+
+    Subscribers: 
+    * /rosout (http://192.168.0.10:44597/)
+
+
+    header: 
+    seq: 3
+    stamp: 
+        secs: 1687451450
+        nsecs: 733440160
+    frame_id: ''
+    level: 2
+    name: "/controller_spawner"
+    msg: "Started controllers: /mobile_robot/joints_update, /mobile_robot/mobile_base_controller"
+    file: "spawner"
+    function: "main"
+    line: 206
+    topics: 
+    - /rosout
+    ---
+    ----------------------------------------
+    Topic: /rosout_agg
+    Type: rosgraph_msgs/Log
+
+    Publishers: 
+    * /rosout (http://192.168.0.10:44597/)
+
+    Subscribers: None
+
+
+    ^C----------------------------------------
+    Topic: /seguridad
+    Type: robot_movil_msg/seguridad
+
+    Publishers: 
+    * /control_mando (http://192.168.0.40:36101/)
+
+    Subscribers: 
+    * /pistones (http://192.168.0.40:38525/)
+    * /Odrive_dual (http://192.168.0.40:41657/)
+
+
+    Parada_emergencia: False
+    ---
+    ----------------------------------------
+    Topic: /tf
+    Type: tf/tfMessage
+
+    Publishers: 
+    * /robot_state_publisher (http://192.168.0.40:40745/)
+    * /robot_hw_interface (http://192.168.0.40:35683/)
+
+    Subscribers: None
+
+
+    transforms: 
+    - 
+        header: 
+        seq: 0
+        stamp: 
+            secs: 1687451729
+            nsecs: 953938923
+        frame_id: "FD_agarre_rueda_link"
+        child_frame_id: "FD_rueda_link"
+        transform: 
+        translation: 
+            x: 0.0
+            y: -0.1157
+            z: 0.036
+        rotation: 
+            x: 0.0025357543982320084
+            y: -0.002535754398232008
+            z: -0.7071022344397108
+            w: 0.707102234439711
+    - 
+        header: 
+        seq: 0
+        stamp: 
+            secs: 1687451729
+            nsecs: 953938923
+        frame_id: "FI_agarre_rueda_link"
+        child_frame_id: "FI_rueda_link"
+        transform: 
+        translation: 
+            x: 0.0
+            y: -0.1157
+            z: 0.036
+        rotation: 
+            x: 0.0
+            y: 0.0
+            z: 0.7071067811865475
+            w: 0.7071067811865476
+    - 
+        header: 
+        seq: 0
+        stamp: 
+            secs: 1687451729
+            nsecs: 953938923
+        frame_id: "TD_agarre_rueda_link"
+        child_frame_id: "TD_rueda_link"
+        transform: 
+        translation: 
+            x: 0.0
+            y: -0.1157
+            z: 0.036
+        rotation: 
+            x: 0.0
+            y: 0.0
+            z: -0.7071067811865475
+            w: 0.7071067811865476
+    - 
+        header: 
+        seq: 0
+        stamp: 
+            secs: 1687451729
+            nsecs: 953938923
+        frame_id: "TI_agarre_rueda_link"
+        child_frame_id: "TI_rueda_link"
+        transform: 
+        translation: 
+            x: 0.0
+            y: -0.1157
+            z: 0.036
+        rotation: 
+            x: 0.0
+            y: 0.0
+            z: 0.7071067811865475
+            w: 0.7071067811865476
+    ---
+    ----------------------------------------
+    Topic: /tf_static
+    Type: tf2_msgs/TFMessage
+
+    Publishers: 
+    * /robot_state_publisher (http://192.168.0.40:40745/)
+
+    Subscribers: None
+
+
+    transforms: 
+    - 
+        header: 
+        seq: 0
+        stamp: 
+            secs: 1687451448
+            nsecs: 535390427
+        frame_id: "base_link"
+        child_frame_id: "chassis"
+        transform: 
+        translation: 
+            x: 0.0
+            y: 0.0
+            z: 0.0
+        rotation: 
+            x: 0.0
+            y: 0.0
+            z: 0.0
+            w: 1.0
+    - 
+        header: 
+        seq: 0
+        stamp: 
+            secs: 1687451448
+            nsecs: 535417204
+        frame_id: "base_footprint"
+        child_frame_id: "base_link"
+        transform: 
+        translation: 
+            x: 0.0
+            y: 0.0
+            z: 0.155
+        rotation: 
+            x: 0.0
+            y: 0.0
+            z: 0.0
+            w: 1.0
+    - 
+        header: 
+        seq: 0
+        stamp: 
+            secs: 1687451448
+            nsecs: 535419593
+        frame_id: "base_link"
+        child_frame_id: "imu_link"
+        transform: 
+        translation: 
+            x: 0.0
+            y: 0.0
+            z: 0.38
+        rotation: 
+            x: 0.0
+            y: 0.0
+            z: 0.0
+            w: 1.0
+    - 
+        header: 
+        seq: 0
+        stamp: 
+            secs: 1687451448
+            nsecs: 535422963
+        frame_id: "lidar_estructura_link"
+        child_frame_id: "os_sensor"
+        transform: 
+        translation: 
+            x: 0.0
+            y: 0.0
+            z: 0.2225
+        rotation: 
+            x: 0.0
+            y: 0.0
+            z: 0.0
+            w: 1.0
+    - 
+        header: 
+        seq: 0
+        stamp: 
+            secs: 1687451448
+            nsecs: 535425000
+        frame_id: "base_link"
+        child_frame_id: "lidar_estructura_link"
+        transform: 
+        translation: 
+            x: 0.21
+            y: 0.0
+            z: 0.402
+        rotation: 
+            x: 0.0
+            y: 0.0
+            z: 0.0
+            w: 1.0
+    ---
+    ----------------------------------------
