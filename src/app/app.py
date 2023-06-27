@@ -86,19 +86,18 @@ def obtener_imagen_camara():
     # Crea un objeto VideoCapture para acceder a la cámara
     video = cv2.VideoCapture(0)
     
-    while True:
-        # Captura el fotograma actual de la cámara
-        ret, frame = video.read()
-        
-        # Convierte el fotograma a formato JPEG
-        ret, jpeg = cv2.imencode('.jpg', frame)
-        
-        # Genera el fotograma codificado en bytes
-        frame_bytes = jpeg.tobytes()
-        
-        # Devuelve el fotograma como respuesta al cliente
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n\r\n')
+    # Captura el fotograma actual de la cámara
+    ret, frame = video.read()
+    
+    # Convierte el fotograma a formato JPEG
+    ret, jpeg = cv2.imencode('.jpg', frame)
+    
+    # Genera el fotograma codificado en bytes
+    frame_bytes = jpeg.tobytes()
+    
+    # Devuelve el fotograma como respuesta al cliente
+    yield (b'--frame\r\n'
+            b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n\r\n')
 
 
 def create_app():
