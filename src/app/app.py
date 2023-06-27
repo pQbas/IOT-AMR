@@ -16,6 +16,11 @@ from background_thread import BackgroundThreadFactory, TASKS_QUEUE
 logging.basicConfig(level=logging.INFO, force=True)
 
 
+# Crea un objeto VideoCapture para acceder a la cámara
+video = cv2.VideoCapture(0)
+
+
+
 SIMULATOR = True # True / False - Verdadero si quiere usar el simulador
 
 DICTIONARY = [{
@@ -83,9 +88,7 @@ def subscriber_ros():
 
 
 def obtener_imagen_camara():
-    # Crea un objeto VideoCapture para acceder a la cámara
-    video = cv2.VideoCapture(0)
-    
+
     # Captura el fotograma actual de la cámara
     ret, frame = video.read()
     
