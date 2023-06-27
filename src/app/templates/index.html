@@ -15,9 +15,6 @@
 </head>
 <body>
 
-    <div>
-        <canvas id="myChart"></canvas>
-    </div>
 
     <div id="mainBlock">
         <span id="topic_name2show" style="font-weight: bold;">title</span>
@@ -31,119 +28,131 @@
 
 
 
-    <script type='text/javascript'>
-        var numeroDeIteracion = 0;
-        var intervaloSegundos = 2;
+<script type='text/javascript'>
 
-        $(window).on('load', function() {
-            numeroDeIteracion = 0;
+    var numeroDeIteracion = 0;
+    var intervaloSegundos = 2;
+
+    $(window).on('load', function() {
+        numeroDeIteracion = 0;
+        actualizaPagina();
+        var intervalId = window.setInterval(function(){
+            numeroDeIteracion = numeroDeIteracion + 1;
             actualizaPagina();
-            var intervalId = window.setInterval(function(){
-                numeroDeIteracion = numeroDeIteracion + 1;
-                actualizaPagina();
-            }, intervaloSegundos*1000);
-        });
+        }, intervaloSegundos*1000);
+    });
+    
+    function actualizaPagina() {
+        //console.log("recogiendo datos");
         
-        function actualizaPagina() {
-            //console.log("recogiendo datos");
-            if (numeroDeIteracion == 0) {
-                // este bloque se recogen los datos y se crea la gráfica con el primer valor
-                $.getJSON("datos", function(jsonArray){
+            // este bloque se recogen los datos y se crea la gráfica con el primer valor
+            $.getJSON("datos", function(jsonArray){
+                if (numeroDeIteracion == 0) {
                     $.each(jsonArray, function(index,jsonObject) {
+                        // clonamos al mainBlock, reemplazamos sus valores, los topicos son los ids de los canvas.
                         var mainBlock = $('#mainBlock').clone();
-                        $(mainBlock).attr("id", jsonObject.topic_name);
-                        $(mainBlock).find("#topic_name2show").text(jsonObject.topic_name2show);
+                        $(mainBlock).attr("id", key2Id(jsonObject.topic_name));
+                        $(mainBlock).find("#topic_name2show").text(key2Id(jsonObject.topic_name2show));
                         var oneinfoelement = $(mainBlock).find("#oneInfoElement");
                         $.each(jsonObject.info, function(key,val){
                             // console.log("key: "+key+" ; value: "+val);
                             var keyvalueElement = $(oneinfoelement).clone();
-                            $(keyvalueElement).attr("id", key);
-                            $(keyvalueElement).text("" + key + ": " + val);
+                            $(keyvalueElement).attr("id", key2Id(key));
                             $(mainBlock).find("#info").append(keyvalueElement);
                         });
                         $('#topicContainer').append(mainBlock);
                         $(oneinfoelement).remove();
-                        fillchart(jsonObject,numeroDeIteracion);
                     });
                     $(mainBlock).remove();
+                }
+                $.each(jsonArray, function(index,jsonObject) {
+                    //actualizamos los valores de texto
+                    updateTextValues(jsonObject);
+                    //actualizamos el chart
+                    fillchart(jsonObject,numeroDeIteracion);
                 });
-            } else {
-                // este bloque es para actualizar los datos
-                $.getJSON("datos", function(jsonArray){
-                    $.each(jsonArray, function(index,jsonObject) {
-                        fillchart(jsonObject,numeroDeIteracion);
-                    });
-                });
-            }
-        }
+            });
+    }
 
+    // funcion usada para convertir los nombres que vienen en Json en Id
+    function key2Id(k) {
+        var r = k.replace(" ","_");
+        r = r.replace("/","");
+        return r;
+    }
 
-  
-
-  // Function that fill the chart
-  function fillchart(jsonObject,numeroDeIteracion) {
-    var element = document.getElementById(jsonObject.topic_name);
-    const ctx = $(element).find("#chartContainer");
-    //console.log(numeroDeIteracion);
-    if (numeroDeIteracion > 0) {
-        // Aqui se actualiza el chart con el nuevo dato
-        //console.log("se van a actualizar los charts");
-        console.log(jsonObject.topic_name);
-        var jsonObjectInfoArray = [];
-        $.each(jsonObject.info, function(key,val) {
-            jsonObjectInfoArray.push(val);
+    function updateTextValues(jsonObject) {
+        var element = document.getElementById(key2Id(jsonObject.topic_name));
+        const infoHtmlToUpdate = $(element).find("#info");
+        $.each(jsonObject.info, function(key,val){
+            $(infoHtmlToUpdate).find("#" + key2Id(key)).text("" + key + ": " + val);
         });
-        myChart = Chart.getChart(ctx);
-        addData(myChart,intervaloSegundos * numeroDeIteracion, jsonObjectInfoArray);
-    } else {
-        //console.log("se va a crear los charts");
-        // Aqui se crea cada chart
-        var myDataset = [];
-        $.each(jsonObject.info, function(key,val) {
-            var oneLine = {
-                label: key,
-                data: [val]
+    }
+
+    // Function that fill the chart
+    function fillchart(jsonObject,numeroDeIteracion) {
+        var element = document.getElementById(key2Id(jsonObject.topic_name));
+        const ctx = $(element).find("#chartContainer");
+        //console.log(numeroDeIteracion);
+        if (numeroDeIteracion > 0) {
+            // Aqui se actualiza el chart con el nuevo dato
+            //console.log("se van a actualizar los charts");
+            console.log(jsonObject.topic_name);
+            var jsonObjectInfoArray = [];
+            $.each(jsonObject.info, function(key,val) {
+                jsonObjectInfoArray.push(val);
+            });
+            myChart = Chart.getChart(ctx);
+            addData(myChart,intervaloSegundos * numeroDeIteracion, jsonObjectInfoArray);
+        } else {
+            //console.log("se va a crear los charts");
+            // Aqui se crea cada chart
+            var myDataset = [];
+            $.each(jsonObject.info, function(key,val) {
+                var oneLine = {
+                    label: key,
+                    data: [val]
+                    };
+                myDataset.push(oneLine);
+            });
+            var data2show = {
+                    labels: [0],
+                    datasets: myDataset
                 };
-            myDataset.push(oneLine);
-        });
-        var data2show = {
-                labels: [0],
-                datasets: myDataset
-            };
-        var chart = new Chart(ctx, {
-            type: 'line',
-            data: data2show,
-            options: {
-                scales: {
-                y: {
-                    beginAtZero: true
+            var chart = new Chart(ctx, {
+                type: 'line',
+                data: data2show,
+                options: {
+                    scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                    }
                 }
-                }
+            });
+        }
+    }
+
+    // funcion para agregar un dato a un chart
+    function addData(chart, label, jsonObjectInfoArray) {
+        var maxElements = 8;
+        chart.data.labels.push(label);
+        chart.data.datasets.forEach(function (tmp, i) {
+            //console.log("cantidad: " +  chart.data.datasets[i].data.length);
+            chart.data.datasets[i].data.push(jsonObjectInfoArray[i]);
+            if (chart.data.datasets[i].data.length > maxElements) {
+                // Remove the oldest data
+                chart.data.datasets[i].data.shift();
             }
         });
-    }
-  }
-
-  // funcion para agregar un dato a un chart
-  function addData(chart, label, jsonObjectInfoArray) {
-    var maxElements = 8;
-    chart.data.labels.push(label);
-    chart.data.datasets.forEach(function (tmp, i) {
-        //console.log("cantidad: " +  chart.data.datasets[i].data.length);
-        chart.data.datasets[i].data.push(jsonObjectInfoArray[i]);
-        if (chart.data.datasets[i].data.length > maxElements) {
-            // Remove the oldest data
-            chart.data.datasets[i].data.shift();
+        if (chart.data.labels.length > maxElements) {
+            // Remove the oldest label
+            chart.data.labels.shift();
         }
-    });
-    if (chart.data.labels.length > maxElements) {
-      // Remove the oldest label
-      chart.data.labels.shift();
+        chart.update();
     }
-    chart.update();
-}
 
- </script>
+</script>
 
     <footer>
         <p>&copy; 2023 LABINM Robótica.</p>
