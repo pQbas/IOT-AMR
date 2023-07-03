@@ -8,71 +8,160 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css">
 
-    <!-- TODO: crear los estilos y mover el javascript a un codigo aparte -->
+
+
+<!-- TODO: crear los estilos y mover el javascript a un codigo aparte -->
     <!-- <link rel="stylesheet" href="styles.css"> 
-    <script src="functions.js"></script> -->
+    <script src="functions.js"></script> 
+
+    También crear una imagen del robot más descriptiva
+    Crear un logo de la Upao transparente
+    Cambiar la llamada de Ajax al proceso industrial
+
+-->
 </head>
 <body>
 
-
-    <div id="mainBlock">
-        <span id="topic_name2show" style="font-weight: bold;">title</span>
-        <div id="info">
-            <p id="oneInfoElement">-1</p>
+    <div style="display: none;">
+        <!-- Este pequeño bloque es el que se utiliza para copiarlo y replicarlo para cada topic-->
+        <div id="mainBlock" class="mainBlock">
+            <span id="topic_name2show" class="topic_name2show">title</span>
+            <canvas id="chartContainer"></canvas>
+            <details>   
+                <summary>Valores en tiempo real</summary>
+                <div id="info" class="info">
+                    <p id="oneInfoElement">-1</p>
+                </div>
+            </details>
         </div>
-        <canvas id="chartContainer"></canvas>
     </div>
-    <div id="topicContainer"></div>
-  
 
+
+    <div class="cabecera">
+        <div id="logo">
+            <img class="imgLogoUpao" src="https://repositorio.upao.edu.pe/image/upao_logo2011.jpg" />
+            <span class="textologo">LABINM Robótica - Robot móvil IoT</span>
+            <p>&nbsp;</p>
+        </div>
+        <div class="camara">
+            <img class="imgRobot" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyN528ca4xDEX_AOmPHrSqe-aucjNLaZrnzg&usqp=CAU" />
+            <img id="cameraImage" src="/camera" />
+        </div>
+    </div>
+    <details class="detailsContainer">
+        <summary>Información sobre el proceso industrial</summary>
+        <div id="topicContainerIndustrial" class="topicContainer"></div>
+    </details><br>
+    <details class="detailsContainer">
+        <summary>Información sobre los sensores del robot para desarrollo</summary>
+        <div id="topicContainerDesarrollo" class="topicContainer"></div>
+    </details>
+    
+  
+<style>
+    .cabecera {
+        text-align: center;
+    }
+    .logo {
+    }
+    .imgLogoUpao {
+        vertical-align:middle;
+        width: 20%;
+        margin-right: 10px;
+    }
+    .imgRobot {
+        vertical-align:middle;
+    }
+    .textologo {
+        font-size: 2em;
+        font-weight: bold;
+    }
+    .camara {
+        display: grid;
+        grid-template-columns: 2fr 3fr;
+        grid-gap: 5px;
+    }
+    .cameraImage {
+        width: 90%;
+        text-align: center;
+    }
+    .detailsContainer {
+        display: inline-flex;
+    }
+    .mainBlock {
+        text-align: center;
+    }
+    .topic_name2show {
+        font-weight: bold;
+    }
+    .info {
+    }
+    .mainBlock p {
+        margin:0
+    }
+    .topicContainer {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: 5px;
+    }
+</style>
 
 
 <script type='text/javascript'>
 
     var numeroDeIteracion = 0;
     var intervaloSegundos = 2;
+    const cameraImage = document.getElementById("cameraImage")
 
     $(window).on('load', function() {
         numeroDeIteracion = 0;
-        actualizaPagina();
-        var intervalId = window.setInterval(function(){
+
+        // se piden los datos del proceso industrial y del de desarroll y se actualizan
+        //actualizaDatos("newUrl","#topicContainerIndustrial");
+        actualizaDatos("datos","#topicContainerDesarrollo");
+        window.setInterval(function(){
             numeroDeIteracion = numeroDeIteracion + 1;
-            actualizaPagina();
+            //actualizaDatos("newUrl","#topicContainerIndustrial");
+            actualizaDatos("datos","#topicContainerDesarrollo");
         }, intervaloSegundos*1000);
+
+        //actualizacion de la camara
+        window.setInterval(function(){
+            cameraImage.src = "/camera?" + new Date().getTime();;
+        }, 500);
     });
+
     
-    function actualizaPagina() {
-        //console.log("recogiendo datos");
-        
-            // este bloque se recogen los datos y se crea la gráfica con el primer valor
-            $.getJSON("datos", function(jsonArray){
+    function actualizaDatos(paginaRecogidaData,divRecibidor) {
+        // se leen los datos usando Ajax
+        $.getJSON(paginaRecogidaData, function(jsonArray){
+            $.each(jsonArray, function(index,jsonObject) {
+                // solo en la primera iteración creamos los objetos
                 if (numeroDeIteracion == 0) {
-                    $.each(jsonArray, function(index,jsonObject) {
-                        // clonamos al mainBlock, reemplazamos sus valores, los topicos son los ids de los canvas.
-                        var mainBlock = $('#mainBlock').clone();
-                        $(mainBlock).attr("id", key2Id(jsonObject.topic_name));
-                        $(mainBlock).find("#topic_name2show").text(key2Id(jsonObject.topic_name2show));
-                        var oneinfoelement = $(mainBlock).find("#oneInfoElement");
-                        $.each(jsonObject.info, function(key,val){
-                            // console.log("key: "+key+" ; value: "+val);
-                            var keyvalueElement = $(oneinfoelement).clone();
-                            $(keyvalueElement).attr("id", key2Id(key));
-                            $(mainBlock).find("#info").append(keyvalueElement);
-                        });
-                        $('#topicContainer').append(mainBlock);
-                        $(oneinfoelement).remove();
+                    // clonamos al mainBlock, reemplazamos sus valores, los topicos son los ids de los canvas.
+                    var mainBlock = $('#mainBlock').clone();
+                    $(mainBlock).attr("id", key2Id(jsonObject.topic_name));
+                    $(mainBlock).find("#topic_name2show").text(key2Id(jsonObject.topic_name2show));
+                    var oneinfoelement = $(mainBlock).find("#oneInfoElement");
+                    $.each(jsonObject.info, function(key,val){
+                        // console.log("key: "+key+" ; value: "+val);
+                        var keyvalueElement = $(oneinfoelement).clone();
+                        $(keyvalueElement).attr("id", key2Id(key));
+                        $(mainBlock).find("#info").append(keyvalueElement);
                     });
-                    $(mainBlock).remove();
+                    $(divRecibidor).append(mainBlock);
+                    $(oneinfoelement).remove();
                 }
-                $.each(jsonArray, function(index,jsonObject) {
-                    //actualizamos los valores de texto
-                    updateTextValues(jsonObject);
-                    //actualizamos el chart
-                    fillchart(jsonObject,numeroDeIteracion);
-                });
+                //actualizamos los valores de texto
+                updateTextValues(jsonObject);
+                //actualizamos el chart
+                fillchart(jsonObject,numeroDeIteracion);
             });
+        });
     }
+
 
     // funcion usada para convertir los nombres que vienen en Json en Id
     function key2Id(k) {
@@ -80,6 +169,7 @@
         r = r.replace("/","");
         return r;
     }
+
 
     function updateTextValues(jsonObject) {
         var element = document.getElementById(key2Id(jsonObject.topic_name));
