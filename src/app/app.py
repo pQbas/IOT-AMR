@@ -110,9 +110,9 @@ def subscriber_ros():
         # actualizando el diccionario
         print("SIMULATOR -- ON")
         
-        for topic in DICTIONARY:
+        for topic in DICTIONARY_DESARROLLO :
             random_number = random.randint(10,15) + random.random()
-            DICTIONARY[topic] = random_number
+            DICTIONARY_DESARROLLO [topic] = random_number
         
         #print(DICTIONARY[topic])
         #sys.exit()  # JORGE: Commentarlo, lo uso para pruebas
