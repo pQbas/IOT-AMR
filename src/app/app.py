@@ -12,12 +12,51 @@ import os
 import cv2
 
 
+sys.path.append('/home/pqbas/miniconda3/envs/dl/lib/python3.8/site-packages')
+sys.path.append('/home/pqbas/catkin_ws/src/blueberry/src/detection')
+sys.path.append('/home/pqbas/catkin_ws/src/blueberry/src/detection/object_detection_models/yolov5')
+
+import rospy
+from std_msgs.msg import String
+from sensor_msgs.msg import Imu
+from sensor_msgs.msg import Image, CompressedImage
+from cv_bridge import CvBridge, CvBridgeError
+from vision_msgs.msg import Detection2D, BoundingBox2D, ObjectHypothesisWithPose, Detection2DArray
+from geometry_msgs.msg import Pose2D, PoseWithCovariance, Pose, PoseStamped
+import rospy
+import pyzed.sl as sl
+import cv2
+import numpy as np
+from pathlib import Path
+
+bridge = CvBridge()
+
+def zed_image_callback(msg):
+    # Get the image inside the msg
+    global ZED_IMG
+    
+    try:
+        ZED_IMG = bridge.imgmsg_to_cv2(msg, "bgr8")
+        rospy.loginfo(rospy.get_caller_id() + " Succeed: Image received" + " Size: " + str(msg.height) + "x" + str(msg.width))
+    except CvBridgeError:
+        rospy.loginfo(rospy.get_caller_id() + " Error: LOL")
+
+
+def odometry_callback(msg):
+    # Get the image inside the msg
+    global DICTIONARY_DESARROLLO
+    DICTIONARY_DESARROLLO[0]['info']['x'] = msg.pose.position.x
+    DICTIONARY_DESARROLLO[0]['info']['y'] = msg.pose.position.y
+    DICTIONARY_DESARROLLO[0]['info']['z'] = msg.pose.position.z
+    return
+
+
 from background_thread import BackgroundThreadFactory, TASKS_QUEUE
 logging.basicConfig(level=logging.INFO, force=True)
 
 video = None
-
-SIMULATOR = True # True / False - Verdadero si quiere usar el simulador
+ZED_IMG = None
+SIMULATOR = False # True / False - Verdadero si quiere usar el simulador
 
 
 DICTIONARY_DESARROLLO = [{
@@ -52,7 +91,6 @@ DICTIONARY_DESARROLLO = [{
 		}
 	}
 ]
-
 
 DICTIONARY_INDUSTRIAL = [{
 		"topic_name": "/odom2",
@@ -100,7 +138,7 @@ DICTIONARY_INDUSTRIAL = [{
 		}
 	}
 ]
-
+    
 
 
 def subscriber_ros():
@@ -119,12 +157,17 @@ def subscriber_ros():
 
     else:
         print("SIMULATOR -- OFF")
+
         import os
         import rospy
-        from ros_manager import callback
+        # from ros_manager import test_callback, zed_image_callback
         from std_msgs.msg import String
+        from sensor_msgs.msg import Image, CompressedImage
         threading.Thread(target=lambda: rospy.init_node('iot_node', disable_signals=True)).start()
-        rospy.Subscriber("data_simulated", String, callback)
+        # rospy.Subscriber("data_simulated", String, test_callback)
+        rospy.Subscriber("/zed2i/zed_node/right_raw/image_raw_color", Image, zed_image_callback)
+        rospy.Subscriber("/zed2i/zed_node/pose", PoseStamped, odometry_callback)
+
         # hacer 'import rospy.py'
         # iterar el diccionario y suscribirse a cada topico del diccionario,
         # actualiza el diccionario en base a los valores del topic
@@ -134,9 +177,13 @@ def subscriber_ros():
 def create_app():
     global video
     app = Flask(__name__)
-    if video == None:
-        video = cv2.VideoCapture(0)
-    #video = cv2.VideoCapture(-1)
+    
+    if SIMULATOR == False:
+        subscriber_ros()
+    else:
+        if video == None:
+            video = cv2.VideoCapture(0)
+
 
     @app.route('/')
     def index():
@@ -153,67 +200,42 @@ def create_app():
     @app.route('/datos_industrial',methods=['GET'])
     def solicitud_industrial():
         return jsonify(DICTIONARY_INDUSTRIAL)
-    
-    
-    # @app.route('/datos_industria',methods=['GET'])
-    # def solicitud():
-    #     return jsonify(DICTIONARY)
-    
 
     @app.route('/camera')
     def imagen_camara():
         return Response(obtener_imagen_camara(),
                         mimetype='multipart/x-mixed-replace; boundary=frame')
-
-    
-    # notification_thread = BackgroundThreadFactory.create('notification')
-
-    # # this condition is needed to prevent creating duplicated thread in Flask debug mode
-    # if not (app.debug == 'development') == 'true':
-    #     notification_thread.start()
-
-    #     original_handler = signal.getsignal(signal.SIGINT)
-
-    #     def sigint_handler(signum, frame):
-    #         notification_thread.stop()
-
-    #         # wait until thread is finished
-    #         if notification_thread.is_alive():
-    #             notification_thread.join()
-
-    #         original_handler(signum, frame)
-
-    #     try:
-    #         signal.signal(signal.SIGINT, sigint_handler)
-    #     except ValueError as e:
-    #         logging.error(f'{e}. Continuing execution...')
-
     return app
 
 
-
 def obtener_imagen_camara():
-    global video
-    #if video == None:
-    #    video = cv2.VideoCapture(0)
-    
+    global video 
+    global ZED_IMG
     # Captura el fotograma actual de la cámara
-    ret, frame = video.read()
 
-    print(type(frame))    
-    # Convierte el fotograma a formato JPEG
-    ret, jpeg = cv2.imencode('.jpg', frame)
-    
-    # Genera el fotograma codificado en bytes
-    frame_bytes = jpeg.tobytes()
-    
-    # Devuelve el fotograma como respuesta al cliente
-    yield (b'--frame\r\n'
-        b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n\r\n')
+    if SIMULATOR == False:
+        # print(ZED_IMG.shape)
+        if ZED_IMG is not None:
+            ret, jpeg = cv2.imencode('.jpg', ZED_IMG)
+            frame_bytes = jpeg.tobytes()
+            # Devuelve el fotograma como respuesta al cliente
+            yield (b'--frame\r\n'
+                b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n\r\n')
+
+    else:
+        ret, frame = video.read()
+        if ret:
+            # Convierte el fotograma a formato JPEG
+            ret, jpeg = cv2.imencode('.jpg', frame)
+            # Genera el fotograma codificado en bytes
+            frame_bytes = jpeg.tobytes()
+            # Devuelve el fotograma como respuesta al cliente
+            yield (b'--frame\r\n'
+                b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n\r\n')
 
 
 if __name__ == '__main__':
-    #subscriber_ros()
+    
     # Start the threa
     #app.run(debug=True, port=5000)
 
