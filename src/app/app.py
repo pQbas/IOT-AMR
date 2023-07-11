@@ -84,7 +84,7 @@ DICTIONARY_INDUSTRIAL = [{
 			"voltaje p4": -1,
 			"corriente p4": -1
 		}
-	}
+	},
     	{
 		"topic_name": "/testing_topic_industrial",
 		"topic_name2show": "another_topic",
