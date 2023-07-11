@@ -25,3 +25,11 @@ Pasos simular servidor WEB:
         - en el navegador, entrar a la direccion http://127.0.0.1:5000/
         git commit -m 'Folder documents with topic_list.txt was addded'
         git push -u origin main
+
+
+
+Tareas:
+- Crear dos diccionarios, uno para datos de laboratorio, otro para empresa. Buscar que sean similares.
+
+- Cómo devolver una imagen en un servidor con python.
+    
