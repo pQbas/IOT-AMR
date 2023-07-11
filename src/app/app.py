@@ -131,11 +131,11 @@ def create_app():
         return render_template('functions.js')
 
     @app.route('/datos_desarrollo',methods=['GET'])
-    def solicitud():
+    def solicitud_desarrollo():
         return jsonify(DICTIONARY_DESARROLLO)
     
     @app.route('/datos_industrial',methods=['GET'])
-    def solicitud():
+    def solicitud_industrial():
         return jsonify(DICTIONARY_INDUSTRIAL)
     
     
