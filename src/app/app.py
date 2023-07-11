@@ -85,6 +85,20 @@ DICTIONARY_INDUSTRIAL = [{
 			"corriente p4": -1
 		}
 	}
+    	{
+		"topic_name": "/testing_topic_industrial",
+		"topic_name2show": "another_topic",
+		"info": {
+			"info p1": -1,
+			"info2 p1": -1,
+			"info p2": -1,
+			"info2 p2": -1,
+			"info p3": -1,
+			"info2 p3": -1,
+			"info p4": -1,
+			"info2 p4": -1
+		}
+	}
 ]
 
 
