@@ -119,12 +119,12 @@
         numeroDeIteracion = 0;
 
         // se piden los datos del proceso industrial y del de desarroll y se actualizan
-        //actualizaDatos("newUrl","#topicContainerIndustrial");
-        actualizaDatos("datos","#topicContainerDesarrollo");
+        actualizaDatos("datos_industrial","#topicContainerIndustrial");
+        actualizaDatos("datos_desarrollo","#topicContainerDesarrollo");
         window.setInterval(function(){
             numeroDeIteracion = numeroDeIteracion + 1;
-            //actualizaDatos("newUrl","#topicContainerIndustrial");
-            actualizaDatos("datos","#topicContainerDesarrollo");
+            actualizaDatos("datos_industrial","#topicContainerIndustrial");
+            actualizaDatos("datos_desarrollo","#topicContainerDesarrollo");
         }, intervaloSegundos*1000);
 
         //actualizacion de la camara

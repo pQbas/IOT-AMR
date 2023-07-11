@@ -110,9 +110,9 @@ def subscriber_ros():
         # actualizando el diccionario
         print("SIMULATOR -- ON")
         
-        for topic in DICTIONARY_DESARROLLO :
+        for topic in DICTIONARY:
             random_number = random.randint(10,15) + random.random()
-            DICTIONARY_DESARROLLO [topic] = random_number
+            DICTIONARY[topic] = random_number
         
         #print(DICTIONARY[topic])
         #sys.exit()  # JORGE: Commentarlo, lo uso para pruebas
@@ -134,7 +134,9 @@ def subscriber_ros():
 def create_app():
     global video
     app = Flask(__name__)
-    video = cv2.VideoCapture(-1)
+    if video == None:
+        video = cv2.VideoCapture(0)
+    #video = cv2.VideoCapture(-1)
 
     @app.route('/')
     def index():
@@ -189,8 +191,11 @@ def create_app():
     return app
 
 
-# video = cv2.VideoCapture(-1)
+
 def obtener_imagen_camara():
+    global video
+    #if video == None:
+    #    video = cv2.VideoCapture(0)
     
     # Captura el fotograma actual de la cámara
     ret, frame = video.read()
