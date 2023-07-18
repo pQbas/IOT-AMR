@@ -16,30 +16,6 @@ sys.path.append('/home/pqbas/miniconda3/envs/dl/lib/python3.8/site-packages')
 sys.path.append('/home/pqbas/catkin_ws/src/blueberry/src/detection')
 sys.path.append('/home/pqbas/catkin_ws/src/blueberry/src/detection/object_detection_models/yolov5')
 
-import rospy
-from std_msgs.msg import String
-from sensor_msgs.msg import Imu
-from sensor_msgs.msg import Image, CompressedImage
-from cv_bridge import CvBridge, CvBridgeError
-from vision_msgs.msg import Detection2D, BoundingBox2D, ObjectHypothesisWithPose, Detection2DArray
-from geometry_msgs.msg import Pose2D, PoseWithCovariance, Pose, PoseStamped
-import rospy
-import pyzed.sl as sl
-import cv2
-import numpy as np
-from pathlib import Path
-
-bridge = CvBridge()
-
-def zed_image_callback(msg):
-    # Get the image inside the msg
-    global ZED_IMG
-    
-    try:
-        ZED_IMG = bridge.imgmsg_to_cv2(msg, "bgr8")
-        rospy.loginfo(rospy.get_caller_id() + " Succeed: Image received" + " Size: " + str(msg.height) + "x" + str(msg.width))
-    except CvBridgeError:
-        rospy.loginfo(rospy.get_caller_id() + " Error: LOL")
 
 
 def odometry_callback(msg):
@@ -56,7 +32,37 @@ logging.basicConfig(level=logging.INFO, force=True)
 
 video = None
 ZED_IMG = None
-SIMULATOR = False # True / False - Verdadero si quiere usar el simulador
+SIMULATOR = True # True / False - Verdadero si quiere usar el simulador
+
+
+
+if SIMULATOR == True:
+    import rospy
+    from std_msgs.msg import String
+    from sensor_msgs.msg import Imu
+    from sensor_msgs.msg import Image, CompressedImage
+    from cv_bridge import CvBridge, CvBridgeError
+    from vision_msgs.msg import Detection2D, BoundingBox2D, ObjectHypothesisWithPose, Detection2DArray
+    from geometry_msgs.msg import Pose2D, PoseWithCovariance, Pose, PoseStamped
+    import rospy
+    import pyzed.sl as sl
+    import cv2
+    import numpy as np
+    from pathlib import Path
+
+    bridge = CvBridge()
+
+    def zed_image_callback(msg):
+        # Get the image inside the msg
+        global ZED_IMG
+        
+        try:
+            ZED_IMG = bridge.imgmsg_to_cv2(msg, "bgr8")
+            rospy.loginfo(rospy.get_caller_id() + " Succeed: Image received" + " Size: " + str(msg.height) + "x" + str(msg.width))
+        except CvBridgeError:
+            rospy.loginfo(rospy.get_caller_id() + " Error: LOL")
+
+
 
 
 DICTIONARY_DESARROLLO = [{
