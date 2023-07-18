@@ -36,7 +36,7 @@ SIMULATOR = True # True / False - Verdadero si quiere usar el simulador
 
 
 
-if SIMULATOR == True:
+if SIMULATOR == False:
     import rospy
     from std_msgs.msg import String
     from sensor_msgs.msg import Imu
