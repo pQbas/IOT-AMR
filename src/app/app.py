@@ -216,9 +216,9 @@ def create_app():
     def returnLogoUpao():
         return send_file("templates/upao_logo.png", mimetype='image/png')
     
-    @app.route('/robot.jpg')
+    @app.route('/robot.png')
     def returnRobot():
-        return send_file("templates/robot.jpg", mimetype='image/jpg')
+        return send_file("templates/robot.png", mimetype='image/png')
 
     return app
 
