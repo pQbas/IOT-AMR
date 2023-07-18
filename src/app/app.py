@@ -2,7 +2,7 @@
 import sys
 sys.path.append('/home/pqbas/miniconda3/envs/iot/lib/python3.8/site-packages') #JORGE
 from watchdog.events import EVENT_TYPE_OPENED
-from flask import Flask, render_template, jsonify, Response
+from flask import Flask, render_template, jsonify, Response, send_file
 import random
 import threading
 import time
@@ -211,7 +211,18 @@ def create_app():
     def imagen_camara():
         return Response(obtener_imagen_camara(),
                         mimetype='multipart/x-mixed-replace; boundary=frame')
+    
+    @app.route('/upao_logo.png')
+    def returnLogoUpao():
+        return send_file("templates/upao_logo.png", mimetype='image/png')
+    
+    @app.route('/robot.jpg')
+    def returnRobot():
+        return send_file("templates/robot.jpg", mimetype='image/jpg')
+
     return app
+
+    
 
 
 def obtener_imagen_camara():
