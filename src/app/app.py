@@ -15,7 +15,7 @@ logging.basicConfig(level=logging.INFO, force=True)
 
 video = None
 ZED_IMG = None
-SIMULATOR = False # True / False - Verdadero si quiere usar el simulador
+SIMULATOR = True # True / False - Verdadero si quiere usar el simulador
 
 if SIMULATOR == False:
 

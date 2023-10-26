@@ -5,6 +5,7 @@ Preparing the environment in Windows:
 - Install
     python -m pip install roslibpy
     python -m pip install waitress
+    python -m pip install watchdog
 
 
 Pasos en GIT:

@@ -4,7 +4,8 @@ DICTIONARY_DESARROLLO = [{
 		"info": {
 			"x": -1,
 			"y": -1,
-			"z": -1
+			"z": -1,
+            "b": 2
 		}
 	},
 	{

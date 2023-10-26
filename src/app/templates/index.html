@@ -111,7 +111,7 @@
 <script type='text/javascript'>
 
     var numeroDeIteracion = 0;
-    var intervaloSegundos = 2;
+    var intervaloSegundos = 10;
     const cameraImage = document.getElementById("cameraImage")
 
     $(window).on('load', function() {
@@ -129,7 +129,7 @@
         //actualizacion de la camara
         window.setInterval(function(){
             cameraImage.src = "/camera?" + new Date().getTime();;
-        }, 500);
+        }, 10000);
     });
 
     
